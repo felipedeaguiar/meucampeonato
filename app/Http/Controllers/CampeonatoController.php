@@ -8,16 +8,20 @@ use App\Models\Time;
 use Illuminate\Http\Request;
 
 class CampeonatoController extends Controller
-{   
+{
 
     public function index()
-    {   
+    {
         $result = Campeonato::all();
+
+        foreach ($result as $campeonato) {
+            $campeonato['fases'] = $campeonato->getNavegacaoFases();
+        }
 
         return response()->json(['data' => $result]);
     }
 
-    public function show($id) 
+    public function show($id)
     {
         $result = Campeonato::find($id)->with('partidas')->first();
 
@@ -28,7 +32,7 @@ class CampeonatoController extends Controller
         return response()->json(['data' => $result]);
     }
 
-    public function partidas(int $campeonato, int $fase) 
+    public function partidas(int $campeonato, int $fase)
     {
          $campeonato = Campeonato::find($campeonato);
 
@@ -36,16 +40,20 @@ class CampeonatoController extends Controller
             return response()->json(['erro' => 'Campeonato não encontrado!'], 404);
         }
 
-        return response()->json(['data' => $campeonato->getPartidas($fase)]);
+        $result = $campeonato->getPartidas($fase);
+
+        $campeonato->fases = $campeonato->getNavegacaoFases();
+
+        return response()->json(['data' => ['campeonato' => $campeonato, 'partidas' => $result]]);
     }
-    
+
     public function store(Request $request)
     {
         try {
             $time = Campeonato::create($request->all());
 
             return response()->json(['data' => $time]);
-            
+
         } catch (\Exception $e) {
               return response()->json(['erro' => 'Ocorreu um erro ao criar o campeonato. Detalhes: ' . $e->getMessage()], 500);
         }
@@ -58,7 +66,7 @@ class CampeonatoController extends Controller
         if (empty($campeonato)) {
             return response()->json(['erro' => 'Campeonato não encontrado!'], 404);
         }
-        
+
         return response()->json(['data' => $campeonato->getFaseAtual()]);
     }
 
@@ -69,12 +77,12 @@ class CampeonatoController extends Controller
         if (empty($campeonato)) {
             return response()->json(['erro' => 'Não possível chavear a fase pois o campeonato não existe'], 404);
         }
-    
+
         try {
             $result = $campeonato->chavear();
-            
+
             return response()->json(['data' => $result]);
-            
+
         } catch (\Exception $e) {
               return response()->json(['erro' => 'Ocorreu um erro ao chavear fase. Detalhes: ' . $e->getMessage()], 500);
         }
@@ -87,12 +95,12 @@ class CampeonatoController extends Controller
         if (empty($campeonato)) {
             return response()->json(['erro' => 'Não possível chavear a fase pois o campeonato não existe'], 404);
         }
-    
+
         try {
             $result = $campeonato->simular();
-            
+
             return response()->json(['data' => $result]);
-            
+
         } catch (\Exception $e) {
               return response()->json(['erro' => 'Ocorreu um erro ao chavear fase. Detalhes: ' . $e->getMessage()], 500);
         }
@@ -105,7 +113,7 @@ class CampeonatoController extends Controller
         if (empty($campeonato)) {
             return response()->json(['erro' => 'Não possível iniciar o campeonato pois ele não existe'], 404);
         }
-        
+
         $times = Time::all();
 
         if (count($times) < 8) {
@@ -116,7 +124,7 @@ class CampeonatoController extends Controller
 
         // Embaralhar os times
         shuffle($timesArray);
-        
+
         for ($i = 0; $i < count($timesArray) - 1; $i += 2) {
             $partida = new Partida();
             $partida->time1_id = $timesArray[$i]['id'];
@@ -133,7 +141,7 @@ class CampeonatoController extends Controller
 
             $partida->time1_placar = $gols1;
             $partida->time2_placar = $gols2;
-           
+
             if ($gols1 > $gols2) {
                 $partida->vencedor_id = $partida->time1_id;
             } else if ($gols1 < $gols2) {
@@ -150,7 +158,7 @@ class CampeonatoController extends Controller
         }
 
         $vencedoresFase = $campeonato->partidas->where('fase', 4)->toArray();
-        
+
         for ($i = 0; $i < count($vencedoresFase) - 1; $i += 2) {
             $partida = new Partida();
             $partida->time1_id = $vencedoresFase[$i]['vencedor_id'];
@@ -166,7 +174,7 @@ class CampeonatoController extends Controller
 
             $partida->time1_placar = $gols1;
             $partida->time2_placar = $gols2;
-           
+
             if ($gols1 > $gols2) {
                 $partida->vencedor_id = $partida->time1_id;
             } else if ($gols1 < $gols2) {
@@ -183,7 +191,7 @@ class CampeonatoController extends Controller
         }
 
         $vencedoresFase = $campeonato->partidas()->where('fase', 2)->get()->toArray();
-      
+
         for ($i = 0; $i < count($vencedoresFase) - 1; $i += 2) {
             $partida = new Partida();
             $partida->time1_id = $vencedoresFase[$i]['vencedor_id'];
@@ -199,7 +207,7 @@ class CampeonatoController extends Controller
 
             $partida->time1_placar = $gols1;
             $partida->time2_placar = $gols2;
-           
+
             if ($gols1 > $gols2) {
                 $partida->vencedor_id = $partida->time1_id;
             } else if ($gols1 < $gols2) {

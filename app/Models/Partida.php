@@ -19,4 +19,9 @@ class Partida extends Model
     {
         return $this->hasOne(Time::class, 'id', 'time2_id');
     }
+
+    public function campeonato()
+    {
+        return $this->belongsTo(Campeonato::class);
+    }
 }

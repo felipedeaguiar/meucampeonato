@@ -1,0 +1,25 @@
+<div class="row">
+    <h3>Fase atual do campeonato: {{campeonato.fases.atual.nome}}</h3>
+
+    <div class="match-container" *ngFor="let partida of partidas">
+        <div class="team">
+            <span>{{partida.time1.nome}}</span>
+            <div class="score">{{partida.time1_placar}}</div>
+        </div>
+        <div class="versus">vs</div>
+        <div class="team">
+            <span>{{partida.time2.nome}}</span>
+            <div class="score">{{partida.time2_placar}}</div>
+        </div>
+    </div>
+
+    <input class="btn btn-primary mt-4" (click)="simular()" value="Simular">
+
+    <div class="nav" style="padding-top: 20px">
+      <!-- Botão para a fase anterior -->
+      <button [routerLink]="['/campeonato', campeonato.id, 'fase', campeonato.fases.anterior]" class="btn btn-secondary ml-2 float-left">Fase Anterior</button>
+
+      <!-- Botão para a próxima fase -->
+      <button [routerLink]="['/campeonato', campeonato.id, 'fase', campeonato.fases.proximo]"  class="btn btn-secondary ml-2 float-right">Próxima Fase</button>
+    </div>
+</div>

@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-8">
+        <h2>Adicionar novo campeonato</h2>
+        <form [formGroup]="formularioCampeonato" (ngSubmit)="submitForm()">
+            <div class="form-group">
+                <label for="nome">Nome do campeonato</label>
+                <input type="text" class="form-control" formControlName="nome" id="nome" required>
+            </div>
+            <input type="submit" class="btn btn-primary mt-4" value="Adicionar">
+        </form>
+    </div>
+    <div class="col-4">
+        <h2>Adicionar novo time</h2>
+        <form [formGroup]="formularioTime" (ngSubmit)="submitFormTime()">
+            <div class="form-group">
+                <label for="nome">Nome do time</label>
+                <input type="text" class="form-control" formControlName="nome" id="nome" required>
+            </div>
+            <input type="submit" class="btn btn-primary mt-4" value="Adicionar">
+        </form>
+    </div>
+</div>
+
+<div class="row lista-campeonatos">
+    <div class="col-8">
+        <h2>Lista de campeonatos</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                <th scope="col">Nome</th>
+                <th scope="col">Data de cadastro</th>
+                <th scope="col">Fase atual</th>
+                <th scope="col">Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let campeonato of campeonatos">
+                    <td>{{campeonato.nome}}</td>
+                    <td>{{campeonato.created_at | date:'dd/MM/yyyy HH:mm'}}</td>
+                    <td>{{campeonato.fases.atual.nome}}</td>
+                    <td>
+                        <a type="button" [routerLink]="['/campeonato', campeonato.id, 'fase', campeonato.fases.atual.id]" class="btn btn-primary btn-sm"><i class="bi bi-play-circle-fill"></i> Jogar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-4">
+        <h2>Lista de times</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nome</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let time of times">
+                    <td>{{time.nome}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
