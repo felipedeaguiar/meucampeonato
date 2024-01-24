@@ -18,6 +18,7 @@ DB_PORT=3306
 DB_DATABASE=trade
 DB_USERNAME=root
 DB_PASSWORD=root
+```
 
 Suba os containers do projeto
 ```sh
@@ -39,7 +40,7 @@ Gerar a key do projeto Laravel
 ```sh
 php artisan key:generate
 ```
-### Passo a passo para rodar back end
+### Passo a passo para rodar front
 
 
 Acessar a pasta cd /trade-app-front
