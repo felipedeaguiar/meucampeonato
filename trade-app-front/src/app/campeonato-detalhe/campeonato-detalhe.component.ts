@@ -46,7 +46,7 @@ export class CampeonatoDetalheComponent {
   public getPartidas()
   {
     this.http.get<any>('http://localhost/api/campeonato/'+this.id+'/partidas/'+this.idFase).subscribe(resultado => {
-      if (resultado.data.length === 0) {
+      if (resultado.data.partidas.length === 0) {
           this.chavear();
       } else {
         this.campeonato = resultado.data.campeonato;
@@ -65,7 +65,7 @@ export class CampeonatoDetalheComponent {
   public chavear()
   {
     this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/chavear/', {}).subscribe(resultado => {
-        this.partidas = resultado.data;
+        this.getPartidas();
     });
   }
 

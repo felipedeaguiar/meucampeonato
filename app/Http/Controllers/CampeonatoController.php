@@ -51,6 +51,7 @@ class CampeonatoController extends Controller
     {
         try {
             $time = Campeonato::create($request->all());
+            $time->fases = $time->getNavegacaoFases();
 
             return response()->json(['data' => $time]);
 

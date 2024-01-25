@@ -117,7 +117,7 @@ class Campeonato extends Model
             throw new BadRequestException('Fase não existe');
         }
 
-        if (!empty($partidas->first()->id_vencedor)) {
+        if (!empty($partidas->first()->vencedor_id)) {
             throw new BadRequestException('Fase já finalizada');
         }
 
@@ -146,6 +146,8 @@ class Campeonato extends Model
 
             $partida->save();
         }
+
+        return true;
     }
 
     public function getPartidasFaseAtual()
