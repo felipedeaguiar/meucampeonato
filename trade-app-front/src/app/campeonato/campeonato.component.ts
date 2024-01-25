@@ -73,6 +73,7 @@ export class CampeonatoComponent {
     }
   }
 
+
   iniciar(id: number) {
    this.http.post<any>('http://localhost/api/campeonato/'+id+'/iniciar',{})
       .subscribe(

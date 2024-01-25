@@ -23,7 +23,8 @@ export class CampeonatoDetalheComponent {
     private http: HttpClient,
   ){}
 
-  ngOnInit() {
+  ngOnInit()
+  {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       const idFase = params.get('idFase');
@@ -61,13 +62,15 @@ export class CampeonatoDetalheComponent {
     });
   }
 
-  public chavear() {
+  public chavear()
+  {
     this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/chavear/', {}).subscribe(resultado => {
         this.partidas = resultado.data;
     });
   }
 
-  public simular() {
+  public simular()
+  {
     this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/simular', {}).subscribe(resultado => {
       this.getPartidas();
     });
