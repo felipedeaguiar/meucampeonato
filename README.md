@@ -50,3 +50,8 @@ npm install
 ng serve
 ```
 
+### Para logar no sistema usar seguinte usuário
+
+email: admin@example.org
+senha: secret
+

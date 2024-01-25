@@ -22,10 +22,9 @@ return new class extends Migration
         Time::create(['nome' => 'Palmeiras']);
         Time::create(['nome' => 'Figueirense']);
         Time::create(['nome' => 'Corinthians']);
-        Time::create(['nome' => 'São Paulo']);
         Time::create(['nome' => 'Gremio']);
-        Time::create(['nome' => 'Atlético Mg']);
         Time::create(['nome' => 'Atlético Pr']);
+        Time::create(['nome' => 'Londrina']);
     }
 
     /**
