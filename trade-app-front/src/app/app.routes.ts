@@ -4,6 +4,7 @@ import { CampeonatoComponent } from './campeonato/campeonato.component';
 import {LoginComponent} from "./login/login.component";
 
 export const routes: Routes = [
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'campeonato', component: CampeonatoComponent},
     { path: 'login', component: LoginComponent},
     { path: 'campeonato/:id/fase/:idFase', component: CampeonatoDetalheComponent },

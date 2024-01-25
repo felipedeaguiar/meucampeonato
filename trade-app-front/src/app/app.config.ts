@@ -6,7 +6,7 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import {CommonModule} from "@angular/common";
-import {AuthInterceptorModule} from "./auth.intercepstor.module";
+import {AuthInterceptorModule} from "./auth.interceptor.module";
 
 
 export const appConfig: ApplicationConfig = {

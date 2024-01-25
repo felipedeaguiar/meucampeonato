@@ -14,15 +14,19 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     // Obter o token do localStorage
-    const token = localStorage.getItem('token');
 
-    // Clonar a requisição e adicionar o token no cabeçalho 'Authorization'
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    if (typeof window !== 'undefined') {
+      // Acesse o localStorage aqui
+      const token = localStorage.getItem('token');
+
+      // Clonar a requisição e adicionar o token no cabeçalho 'Authorization'
+      if (token) {
+        request = request.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
     }
 
     // Continuar com a requisição modificada
