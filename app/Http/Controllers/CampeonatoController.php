@@ -12,7 +12,7 @@ class CampeonatoController extends Controller
 
     public function index()
     {
-        $result = Campeonato::all();
+        $result = Campeonato::with('partidas')->get();
 
         foreach ($result as $campeonato) {
             $campeonato['fases'] = $campeonato->getNavegacaoFases();
@@ -50,10 +50,10 @@ class CampeonatoController extends Controller
     public function store(Request $request)
     {
         try {
-            $time = Campeonato::create($request->all());
-            $time->fases = $time->getNavegacaoFases();
+            $campeonato = Campeonato::create($request->all());
+            $campeonato->fases = $campeonato->getNavegacaoFases();
 
-            return response()->json(['data' => $time]);
+            return response()->json(['data' => $campeonato->load('partidas')]);
 
         } catch (\Exception $e) {
               return response()->json(['erro' => 'Ocorreu um erro ao criar o campeonato. Detalhes: ' . $e->getMessage()], 500);

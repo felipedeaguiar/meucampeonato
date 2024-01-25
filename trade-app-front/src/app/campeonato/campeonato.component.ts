@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { ErroComponent } from '../erro/erro.component';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-campeonato',
@@ -25,7 +26,8 @@ export class CampeonatoComponent {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private bsModalService: BsModalService,
-    private bsModalRef: BsModalRef
+    private bsModalRef: BsModalRef,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -73,15 +75,23 @@ export class CampeonatoComponent {
     }
   }
 
-
-  iniciar(id: number) {
-   this.http.post<any>('http://localhost/api/campeonato/'+id+'/iniciar',{})
-      .subscribe(
-        (resultado) => {
-        console.log(resultado);
-      },(resultado) => {
-          this.mostraModalErro(resultado.error.erro);
+  public chavear(campeonato:any)
+  {
+    this.http.post<any>('http://localhost/api/campeonato/'+campeonato.id+'/chavear', {})
+      .subscribe(resultado => {
+        this.router.navigate(['campeonato',campeonato.id,'fase',campeonato.fases.atual.id]);
+      },error => {
+        this.mostraModalErro(error.error.erro);
       });
+  }
+
+  jogar(campeonato: any) {
+    console.log(campeonato)
+    if (campeonato.partidas.length === 0) {
+      this.chavear(campeonato);
+    } else {
+      this.router.navigate(['campeonato',campeonato.id,'fase',campeonato.fases.atual.id]);
+    }
   }
 
   mostraModalErro(erro: string)

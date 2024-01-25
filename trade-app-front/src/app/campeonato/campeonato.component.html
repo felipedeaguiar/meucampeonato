@@ -39,7 +39,7 @@
                     <td>{{campeonato.created_at | date:'dd/MM/yyyy HH:mm'}}</td>
                     <td>{{campeonato.fases.atual.nome}}</td>
                     <td>
-                        <a type="button" [routerLink]="['/campeonato', campeonato.id, 'fase', campeonato.fases.atual.id]" class="btn btn-primary btn-sm"><i class="bi bi-play-circle-fill"></i> Jogar</a>
+                        <a type="button" (click)="jogar(campeonato)" class="btn btn-primary btn-sm"><i class="bi bi-play-circle-fill"></i> Jogar</a>
                     </td>
                 </tr>
             </tbody>
