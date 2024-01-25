@@ -92,4 +92,10 @@ export class CampeonatoComponent {
 
     this.bsModalRef = this.bsModalService.show(ErroComponent, {initialState} as any);
   }
+
+  fecharModal() {
+    if (this.bsModalRef) {
+      this.bsModalRef.hide();
+    }
+  }
 }

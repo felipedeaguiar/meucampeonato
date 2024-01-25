@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {ErroComponent} from "../erro/erro.component";
+import {BsModalRef, BsModalService} from "ngx-bootstrap/modal";
 
 @Component({
   selector: 'app-campeonato-detalhe',
@@ -21,6 +23,8 @@ export class CampeonatoDetalheComponent {
   constructor(
     private route: ActivatedRoute,
     private http: HttpClient,
+    private bsModalService: BsModalService,
+    private bsModalRef: BsModalRef
   ){}
 
   ngOnInit()
@@ -64,15 +68,30 @@ export class CampeonatoDetalheComponent {
 
   public chavear()
   {
-    this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/chavear/', {}).subscribe(resultado => {
+    this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/chavear', {})
+      .subscribe(resultado => {
         this.getPartidas();
-    });
+      },error => {
+        this.mostraModalErro(error.error.erro);
+      });
   }
 
   public simular()
   {
-    this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/simular', {}).subscribe(resultado => {
-      this.getPartidas();
-    });
+    this.http.post<any>('http://localhost/api/campeonato/'+this.id+'/simular', {}).
+      subscribe(resultado => {
+        this.getPartidas();
+      }, error => {
+          this.mostraModalErro(error.error.erro);
+      });
+  }
+
+  mostraModalErro(erro: string)
+  {
+    const initialState = {
+      mensagemErro: erro
+    };
+
+    this.bsModalRef = this.bsModalService.show(ErroComponent, {initialState} as any);
   }
 }

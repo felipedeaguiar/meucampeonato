@@ -14,8 +14,4 @@ export class ErroComponent {
 
 
   constructor() { }
-
-  fecharModal() {
-
-  }
 }
